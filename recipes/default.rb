@@ -12,6 +12,7 @@ end
 include_recipe "postgresql::server"
 include_recipe "database"
 include_recipe "nodejs"
+include_recipe "runit"
 include_recipe "rails_application::database_credentials"
 
 include_recipe "git" # install git, no support for svn for now
@@ -144,8 +145,8 @@ application node[:rails][:app][:name] do
         action [ :restart ]
       end
     end
-    forked_user      node[:rails][:owner]
-    forked_group     node[:rails][:group]
+    #forked_user      node[:rails][:owner]
+    #forked_group     node[:rails][:group]
   end
 
   nginx_load_balancer do
