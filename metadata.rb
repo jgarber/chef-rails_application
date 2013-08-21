@@ -13,6 +13,6 @@ depends "unicorn"
 depends "application", ">= 2.0.2"
 depends "application_ruby"
 depends "application_nginx"
-
-# to use the rails_application::database_credentials recipe
-recommends "database"
+depends "postgresql"
+depends "nodejs"
+depends "database"

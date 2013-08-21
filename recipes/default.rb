@@ -9,6 +9,11 @@
 if node[:rails][:app][:name].split(" ").count > 1
   Chef::Application.fatal!("Application name must be one word long !")
 end
+include_recipe "postgresql::server"
+include_recipe "database"
+include_recipe "nodejs"
+include_recipe "rails_application::database_credentials"
+
 include_recipe "git" # install git, no support for svn for now
 include_recipe "ruby::#{node[:rails][:ruby][:version]}" # install ruby
 include_recipe "ruby::symlinks"

@@ -28,9 +28,6 @@ actually do the majority of the work.
 - application
 - application_ruby
 - application_nginx
-
-#####  for the rails_application::database_credentials cookbook, you also need -
-
 - database
 
 Several of the above required minor modifications, all of these have pull
@@ -66,6 +63,12 @@ Attributes
     <th>Type</th>
     <th>Description</th>
     <th>Default</th>
+  </tr>
+  <tr>
+    <td><tt>rails/deploy/repository</tt></td>
+    <td>String</td>
+    <td>The git URL of the repository to deploy</td>
+    <td><tt>nil</tt></td>
   </tr>
   <tr>
     <td><tt>rails/ruby/version</tt></td>

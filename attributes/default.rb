@@ -3,6 +3,8 @@ require "securerandom"
 default[:rails][:ruby][:version] = "1.9.1"  # include ruby/recipes/{ver}.rb
 default[:languages][:ruby][:default_version] = node[:rails][:ruby][:version]
 
+default[:nodejs][:install_method] = "package"
+
 default[:rails][:app][:name] = "rails_app" # must be one word
 default[:rails][:app][:path] = "/var/www/projects/#{node[:rails][:app][:name]}"
 default[:rails][:app][:environment] = "production"
@@ -21,7 +23,7 @@ default[:rails][:deploy][:enable_submodules] = true
 default[:rails][:deploy][:action] = :deploy # can be :deploy or :force_deploy
 default[:rails][:deploy][:rollback_on_error] = true
 
-default[:rails][:deploy][:precompile_assets] = nil # true or false
+default[:rails][:deploy][:precompile_assets] = true # true or false
 default[:rails][:deploy][:database_master_role] = nil # used when rendering the `database.yml` file for the host
 default[:rails][:deploy][:database_template] = nil # nil means database.yml.erb will be used
 default[:rails][:deploy][:bundler] = true
@@ -34,18 +36,19 @@ default[:rails][:deploy][:create_dirs_before_symlink] = []
 default[:rails][:deploy][:symlinks] = {}
 default[:rails][:deploy][:symlink_before_migrate] = {}
 
-default[:rails][:deploy][:migrate] = false
-default[:rails][:deploy][:migration_command] = "/usr/local/bin/bundle exec rake db:migrate"
+default[:rails][:deploy][:migrate] = true
+default[:rails][:deploy][:migration_command] = nil
 # TODO: change to command for restarting unicorn
 default[:rails][:deploy][:restart_command] = nil # unicorn provider sets this
 
-default[:rails][:database][:type] = "mysql" # or postgresql
+default[:rails][:database][:type] = "postgresql" # or mysql
 default[:rails][:database][:host] = "127.0.0.1"
 default[:rails][:database][:port] = nil     # use default port for mysql/postgresql
-default[:rails][:database][:adapter] = "mysql2" # node[:rails][:database][:type]
+default[:rails][:database][:adapter] = "postgresql" # node[:rails][:database][:type]
 default[:rails][:database][:name] = node[:rails][:app][:name]
 default[:rails][:database][:username] = node[:rails][:app][:name]
-default[:rails][:database][:password] = node[:rails][:database][:password]  || ::SecureRandom.base64(12)
+default[:rails][:database][:password] = node[:rails][:database][:password] || "abc123"
+default[:postgresql][:password][:postgres] = Digest::MD5.hexdigest("abc123")
 default[:rails][:database][:root_password] = nil # set by mysql/postgresql cookbooks to securerandom
 
 default[:rails][:nginx][:application_port] = nil
